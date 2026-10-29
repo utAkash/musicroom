@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0e0a" />
+  <title>MusicRoom — Same song. Same second. Your people.</title>
+  <meta name="description" content="A shared listening room for YouTube. Create a room, send one code, and hear the same song at the same second — with a shared queue, live chat, and zero ads." />
+  <meta property="og:title" content="MusicRoom — Good music. Good people. Same second." />
+  <meta property="og:description" content="A shared listening room for YouTube. One code, one queue, zero ads. Press play together, wherever you are." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b0e0a'/%3E%3Ccircle cx='32' cy='32' r='19' fill='none' stroke='%23d8ff5f' stroke-width='2'/%3E%3Ccircle cx='32' cy='32' r='12' fill='none' stroke='%23d8ff5f' stroke-width='1.5' opacity='.6'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23d8ff5f'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="lp-site">
+  <a class="lp-skip" href="#main">Skip to content</a>
+
+  <header class="lp-nav" id="siteNav">
+    <div class="lp-shell lp-nav-inner">
+      <a class="lp-logo" href="index.html" aria-label="MusicRoom home">
+        <span class="lp-logo-mark" aria-hidden="true">
+          <span class="lp-logo-ring"></span>
+          <span class="lp-logo-hole"></span>
+        </span>
+        <span class="lp-logo-word">MusicRoom<span class="lp-logo-dot">.</span></span>
+      </a>
+
+      <nav class="lp-nav-links" aria-label="Primary navigation">
+        <a href="#features">Why MusicRoom</a>
+        <a href="#how">How it works</a>
+        <a href="#faq">Questions</a>
+      </nav>
+
+      <div class="lp-nav-actions">
+        <a class="lp-nav-join" href="#start" data-focus-join>
+          <span class="lp-nav-join-dot" aria-hidden="true"></span>
+          Join a room
+        </a>
+        <a class="lp-btn lp-btn-lime lp-btn-sm" href="#start" data-focus-create>
+          Create a room
+          <span class="lp-btn-arrow" aria-hidden="true">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+          </span>
+        </a>
+        <button class="lp-menu-btn" id="menuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="lp-shell">
+      <div class="lp-mobile mobile-menu" id="mobileMenu">
+        <a href="#features">Why MusicRoom</a>
+        <a href="#how">How it works</a>
+        <a href="#faq">Questions</a>
+        <div class="lp-mobile-actions">
+          <a class="lp-btn lp-btn-outline" href="#start" data-focus-join>Join a room</a>
+          <a class="lp-btn lp-btn-lime" href="#start" data-focus-create>Create a room</a>
+        </div>
+        <div class="lp-mobile-note">Free forever · No ads · No account required</div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="lp-hero">
+      <div class="lp-hero-glow" aria-hidden="true"></div>
+      <div class="lp-shell lp-hero-inner">
+        <div class="lp-hero-copy">
+          <div class="lp-eyebrow lp-rise">
+            <span class="lp-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            The shared listening room
+            <span class="lp-eyebrow-live"><span></span>LIVE</span>
+          </div>
+
+          <h1 class="lp-rise lp-rise-1">
+            Good music.<br />
+            Good people.<br />
+            <span class="lp-serif">Same second.</span>
+          </h1>
+
+          <p class="lp-hero-lead lp-rise lp-rise-2">
+            A room for you and your people to listen to YouTube together. One person presses play, everyone hears it at the exact same moment. <em>No ads. No accounts. No awkward countdowns.</em>
+          </p>
+
+          <div class="lp-hero-actions lp-rise lp-rise-2">
+            <a class="lp-btn lp-btn-lime lp-btn-lg" href="#start">
+              Start a room
+              <span class="lp-btn-arrow" aria-hidden="true">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+              </span>
+            </a>
+            <a class="lp-btn lp-btn-outline lp-btn-lg" href="#start" data-focus-join>
+              I have a code
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </a>
+          </div>
+
+          <div class="lp-hero-proof lp-rise lp-rise-3">
+            <span class="lp-proof-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>
+              Free forever
+            </span>
+            <span class="lp-proof-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>
+              Drift-corrected
+            </span>
+            <span class="lp-proof-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>
+              No download
+            </span>
+          </div>
+
+          <div class="lp-hero-note lp-rise lp-rise-3">
+            <div class="lp-proof-avatars" aria-hidden="true">
+              <span class="lp-avatar lp-avatar-lime">MA</span>
+              <span class="lp-avatar lp-avatar-coral">LE</span>
+              <span class="lp-avatar lp-avatar-lilac">ZO</span>
+              <span class="lp-avatar lp-avatar-cream">+</span>
+            </div>
+            <p><strong>Made for the group chat.</strong><br />The aux cord, democratized.</p>
+          </div>
+        </div>
+
+        <div class="lp-hero-stage lp-rise lp-rise-2" aria-label="Preview of a MusicRoom listening session">
+          <div class="lp-stage-ring" aria-hidden="true"></div>
+          <div class="lp-stage-dots" aria-hidden="true"></div>
+
+          <div class="lp-chat-card">
+            <div class="lp-chat-head">
+              <span class="lp-chat-avatar">Z</span>
+              <div><strong>Zoe</strong><span>just now</span></div>
+              <span class="lp-chat-live"><i></i> live</span>
+            </div>
+            <p>this song. every single time. <span aria-hidden="true">♥</span></p>
+          </div>
+
+          <div class="lp-session-card">
+            <div class="lp-session-top">
+              <div class="lp-session-id">
+                <span class="lp-session-signal" aria-hidden="true"></span>
+                <span>Live session</span>
+                <b>05</b>
+              </div>
+              <div class="lp-session-people">
+                <span class="lp-mini-stack" aria-hidden="true">
+                  <span class="lp-mini-avatar lp-avatar-lime">M</span>
+                  <span class="lp-mini-avatar lp-avatar-coral">L</span>
+                  <span class="lp-mini-avatar lp-avatar-lilac">Z</span>
+                </span>
+                <span class="lp-session-count">+3 in the room</span>
+              </div>
+            </div>
+
+            <div class="lp-cover">
+              <img src="https://images.pexels.com/photos/9534912/pexels-photo-9534912.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=900&w=1200" alt="A crowd illuminated by warm concert lights" width="1200" height="900" fetchpriority="high" />
+              <div class="lp-cover-shade" aria-hidden="true"></div>
+              <div class="lp-cover-grain" aria-hidden="true"></div>
+              <div class="lp-cover-tags">
+                <span class="lp-cover-tag">Now playing</span>
+                <span class="lp-cover-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </div>
+              <div class="lp-cover-copy">
+                <span class="lp-cover-kicker">After Hours · Host's pick</span>
+                <h2>Midnight City</h2>
+                <p>M83 <span aria-hidden="true">·</span> Hurry Up, We're Dreaming</p>
+              </div>
+              <div class="lp-disc" aria-hidden="true">
+                <span></span>
+              </div>
+            </div>
+
+            <div class="lp-session-player">
+              <div class="lp-track-line">
+                <div class="lp-track-time">1:42</div>
+                <div class="lp-track-bar"><span></span><i></i></div>
+                <div class="lp-track-time">4:03</div>
+              </div>
+              <div class="lp-track-controls">
+                <div class="lp-control-side" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+                </div>
+                <button class="lp-track-play" id="heroDemoPlay" type="button" aria-label="Open the After Hours demo room">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <div class="lp-control-side lp-control-side-right" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>
+                  <span class="lp-sync-chip"><i></i> 0.03s</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lp-sync-stamp" aria-hidden="true">
+            <svg viewBox="0 0 100 100" width="100" height="100">
+              <defs><path id="stampCircle" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" /></defs>
+              <text class="lp-stamp-text"><textPath href="#stampCircle" startOffset="0%">PERFECT SYNC · MUSICROOM · PERFECT SYNC · </textPath></text>
+              <circle cx="50" cy="50" r="24" fill="none" stroke="currentColor" stroke-width=".8" opacity=".35"></circle>
+              <path d="M31 50h8l4-10 7 20 5-10h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </div>
+
+          <div class="lp-queue-card">
+            <div class="lp-queue-top">
+              <div>
+                <span class="lp-queue-label">Up next</span>
+                <strong>4 in the queue</strong>
+              </div>
+              <button type="button" tabindex="-1" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+            <div class="lp-queue-item">
+              <span class="lp-queue-art lp-queue-art-1" aria-hidden="true"><i></i></span>
+              <div><strong>Seigfried</strong><span>Frank Ocean · Zoe</span></div>
+              <span class="lp-vote">▲ 4</span>
+            </div>
+            <div class="lp-queue-item">
+              <span class="lp-queue-art lp-queue-art-2" aria-hidden="true"><i></i></span>
+              <div><strong>Weird Fishes</strong><span>Radiohead · Leo</span></div>
+              <span class="lp-vote">▲ 2</span>
+            </div>
+            <div class="lp-queue-foot">
+              <span class="lp-code-dot"></span>
+              <span>Room code</span>
+              <b>X7K2P9</b>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lp-hero-bottom lp-shell">
+        <div class="lp-hero-bottom-label">
+          <span>Side A</span>
+          <i></i>
+          <span>The internet's listening room</span>
+        </div>
+        <div class="lp-hero-bottom-scroll">
+          <span>Press play together</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </section>
+
+    <div class="lp-ticker" aria-hidden="true">
+      <div class="lp-ticker-track">
+        <div class="lp-ticker-group">
+          <span>Good music</span><i>✳</i><span>Good company</span><i>✳</i><span>One shared queue</span><i>✳</i><span>Zero ads</span><i>✳</i><span>Perfectly in sync</span><i>✳</i>
+        </div>
+        <div class="lp-ticker-group">
+          <span>Good music</span><i>✳</i><span>Good company</span><i>✳</i><span>One shared queue</span><i>✳</i><span>Zero ads</span><i>✳</i><span>Perfectly in sync</span><i>✳</i>
+        </div>
+      </div>
+    </div>
+
+    <section class="lp-start" id="start">
+      <div class="lp-start-word" aria-hidden="true">TOGETHER</div>
+      <div class="lp-shell lp-start-inner">
+        <div class="lp-start-head">
+          <div class="lp-section-tag lp-section-tag-dark">
+            <span>01</span>
+            <span>Get in the room</span>
+            <i></i>
+          </div>
+          <div class="lp-start-heading">
+            <h2>Two doors.<br /><span class="lp-serif">Same room.</span></h2>
+            <div class="lp-start-heading-side">
+              <p>Start a fresh session or slide into one with a code. Either way, you'll be listening together in under a minute.</p>
+              <div class="lp-start-mini">
+                <span><b>01</b> Pick a name</span>
+                <span><b>02</b> Get a code</span>
+                <span><b>03</b> Press play</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lp-invite-lite hidden" id="inviteBanner" role="status">
+          <div class="lp-invite-copy">
+            <span class="lp-invite-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 19-9-9 19-2-8-8-2Z"/></svg>
+            </span>
+            <span>You've got an invitation to <strong id="inviteCodeText">ROOM</strong>. The door's open.</span>
+          </div>
+          <button class="lp-btn lp-btn-ink lp-btn-sm" id="inviteFill" type="button">Join them</button>
+        </div>
+
+        <div class="lp-start-grid">
+          <article class="lp-create-card">
+            <div class="lp-card-top">
+              <div class="lp-card-badge">
+                <span class="lp-card-badge-dot"></span>
+                You're hosting
+              </div>
+              <span class="lp-card-index">A / 01</span>
+            </div>
+
+            <div class="lp-form-heading">
+              <h3>Start a room</h3>
+              <p>Give it a name, choose your handle, and we'll set the table.</p>
+            </div>
+
+            <form id="createForm" novalidate autocomplete="off">
+              <div class="lp-form-fields">
+                <div class="lp-field">
+                  <label for="createName">Your name</label>
+                  <div class="lp-input-wrap">
+                    <input class="lp-input" id="createName" name="nickname" type="text" placeholder="What should we call you?" maxlength="24" autocomplete="nickname" />
+                    <span class="lp-input-mark" aria-hidden="true">01</span>
+                  </div>
+                  <p class="field-error" id="createNameError" role="alert"></p>
+                </div>
+                <div class="lp-field">
+                  <label for="createRoomName">Room name <span>optional</span></label>
+                  <div class="lp-input-wrap">
+                    <input class="lp-input" id="createRoomName" name="roomName" type="text" placeholder="e.g. Saturday rotation" maxlength="40" />
+                    <span class="lp-input-mark" aria-hidden="true">02</span>
+                  </div>
+                  <p class="field-error" id="createRoomNameError" role="alert"></p>
+                </div>
+              </div>
+              <button class="lp-form-submit" id="createButton" type="submit">
+                <span>Create my room</span>
+                <span class="lp-form-submit-icon" aria-hidden="true">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+                </span>
+              </button>
+              <p class="lp-form-note">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+                No account. No email. Your room and code are ready instantly.
+              </p>
+            </form>
+
+            <div class="lp-create-stubs" aria-hidden="true">
+              <span class="lp-create-stub">X7K2P9</span>
+              <span class="lp-create-stub-line"></span>
+              <span class="lp-create-stub-note">A code of your own</span>
+            </div>
+          </article>
+
+          <article class="lp-join-card">
+            <div class="lp-card-top">
+              <div class="lp-card-badge lp-card-badge-light">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                Got a code?
+              </div>
+              <span class="lp-card-index">B / 02</span>
+            </div>
+
+            <div class="lp-form-heading">
+              <h3>Join<br /><span class="lp-serif">the room.</span></h3>
+              <p>Someone saved you a seat by the speakers. Enter the six-character code to slip in.</p>
+            </div>
+
+            <form id="joinForm" novalidate autocomplete="off">
+              <div class="lp-form-fields">
+                <div class="lp-field lp-field-dark">
+                  <label for="joinName">Your name</label>
+                  <div class="lp-input-wrap">
+                    <input class="lp-input" id="joinName" name="nickname" type="text" placeholder="What should we call you?" maxlength="24" autocomplete="nickname" />
+                  </div>
+                  <p class="field-error" id="joinNameError" role="alert"></p>
+                </div>
+                <div class="lp-field lp-field-dark">
+                  <label for="joinCode">Room code</label>
+                  <div class="lp-input-wrap lp-code-wrap">
+                    <input class="lp-input lp-code-input" id="joinCode" name="roomCode" type="text" placeholder="X7K2P9" maxlength="6" inputmode="text" autocapitalize="characters" spellcheck="false" />
+                  </div>
+                  <p class="field-error" id="joinCodeError" role="alert"></p>
+                </div>
+              </div>
+              <button class="lp-form-submit lp-form-submit-coral" id="joinButton" type="submit">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                <span>Enter the room</span>
+              </button>
+              <p class="lp-form-note lp-form-note-dark">Ask the host for the code — it's six characters, usually on your invite link too.</p>
+            </form>
+
+            <div class="lp-join-orbit" aria-hidden="true">
+              <span class="lp-join-orbit-ring"></span>
+              <span class="lp-join-orbit-dot">♪</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="lp-demo-strip">
+          <div class="lp-demo-copy">
+            <span class="lp-demo-label">No invite yet?</span>
+            <span>Step inside <strong>After Hours</strong> — a full demo room with music, chat, and five fictional friends.</span>
+          </div>
+          <button class="lp-demo-button" id="demoButton" type="button">
+            <span class="lp-demo-play" aria-hidden="true">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+            Listen in on the demo
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-features" id="features">
+      <div class="lp-shell">
+        <div class="lp-features-head">
+          <div class="lp-section-tag">
+            <span>02</span>
+            <span>Why MusicRoom</span>
+            <i></i>
+          </div>
+          <div class="lp-features-heading-row">
+            <h2>The group chat<br />deserves a <span class="lp-serif">soundtrack.</span></h2>
+            <p>Everything you need to turn scattered screens into one shared listening session. Nothing you don't.</p>
+          </div>
+        </div>
+
+        <div class="lp-bento">
+          <article class="lp-bento-card lp-bento-sync">
+            <div class="lp-bento-top">
+              <span class="lp-bento-label"><i></i> Real-time sync</span>
+              <span class="lp-bento-num">01</span>
+            </div>
+            <div class="lp-bento-copy">
+              <h3>Everyone hears it<br /><span class="lp-serif">at the exact same moment.</span></h3>
+              <p>The host broadcasts the playhead every few seconds. If you drift, we quietly pull you back. No countdowns. No “3, 2, 1, go.”</p>
+            </div>
+            <div class="lp-sync-visual" aria-hidden="true">
+              <div class="lp-sync-who">
+                <span class="lp-sync-person"><i class="lp-avatar lp-avatar-lime">M</i><em>0.01s</em></span>
+                <span class="lp-sync-person"><i class="lp-avatar lp-avatar-coral">L</i><em>0.03s</em></span>
+                <span class="lp-sync-person"><i class="lp-avatar lp-avatar-lilac">Z</i><em>0.02s</em></span>
+                <span class="lp-sync-person"><i class="lp-avatar lp-avatar-cream">A</i><em>0.04s</em></span>
+              </div>
+              <div class="lp-sync-line"><i></i></div>
+              <div class="lp-sync-metric">
+                <span class="lp-sync-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                <span>Drift corrected within <b>3 seconds</b></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="lp-bento-card lp-bento-ads">
+            <div class="lp-bento-top">
+              <span class="lp-bento-label lp-bento-label-dark"><i></i> No nonsense</span>
+              <span class="lp-bento-num">02</span>
+            </div>
+            <h3 class="lp-ads-title">No ads.<br />No accounts.<br /><span class="lp-serif">No upsells.</span></h3>
+            <p class="lp-ads-copy">No pre-rolls interrupting the good part. No “sign in to continue.” No premium wall. Just the song.</p>
+            <div class="lp-ads-zero" aria-hidden="true">
+              <span>0</span>
+              <div><strong>ads</strong><small>then, now, always</small></div>
+            </div>
+            <div class="lp-ads-foot" aria-hidden="true">
+              <span><i></i> Free forever</span>
+              <span>Open source spirit</span>
+            </div>
+          </article>
+
+          <article class="lp-bento-card lp-bento-chat">
+            <div class="lp-bento-top">
+              <span class="lp-bento-label lp-bento-label-dark"><i></i> Live chat</span>
+              <span class="lp-bento-num">03</span>
+            </div>
+            <div class="lp-bento-chat-head">
+              <h3>The commentary is <span class="lp-serif">half the fun.</span></h3>
+              <span class="lp-chat-online"><i></i> 6 here</span>
+            </div>
+            <div class="lp-bento-messages">
+              <div class="lp-bento-msg">
+                <span class="lp-msg-avatar lp-avatar-coral">L</span>
+                <div><span><strong>Leo</strong><em>2m</em></span><p>this bassline is a crime</p></div>
+              </div>
+              <div class="lp-bento-msg lp-bento-msg-mine">
+                <span class="lp-msg-avatar lp-avatar-lime">M</span>
+                <div><span><strong>Maya</strong><em>now</em></span><p>put it on repeat, I'm not done</p></div>
+              </div>
+              <div class="lp-bento-msg">
+                <span class="lp-msg-avatar lp-avatar-lilac">Z</span>
+                <div><span><strong>Zoe</strong><em>now</em></span><p>wait who queued Wonderwall 😭</p></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="lp-bento-card lp-bento-queue">
+            <div class="lp-bento-top">
+              <span class="lp-bento-label"><i></i> Shared queue</span>
+              <span class="lp-bento-num">04</span>
+            </div>
+            <div class="lp-queue-feature">
+              <div>
+                <h3>The aux cord,<br /><span class="lp-serif">democratized.</span></h3>
+                <p>Everyone adds. Everyone votes. The best picks rise to the top and the room decides what plays next.</p>
+              </div>
+              <div class="lp-vote-stack" aria-hidden="true">
+                <div class="lp-vote-row"><span class="lp-vote-cover lp-queue-art-1"></span><div><strong>Seigfried</strong><span>Frank Ocean</span></div><b>▲ 4</b></div>
+                <div class="lp-vote-row"><span class="lp-vote-cover lp-queue-art-2"></span><div><strong>Weird Fishes</strong><span>Radiohead</span></div><b>▲ 2</b></div>
+                <div class="lp-vote-row"><span class="lp-vote-cover lp-queue-art-3"></span><div><strong>Midnight City</strong><span>M83</span></div><b class="lp-vote-now">▶ now</b></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-how" id="how">
+      <div class="lp-shell lp-how-grid">
+        <div class="lp-how-intro">
+          <div class="lp-section-tag">
+            <span>03</span>
+            <span>How it works</span>
+            <i></i>
+          </div>
+          <h2>Three steps to a<br /><span class="lp-serif">better room.</span></h2>
+          <p>No downloads, no setup rituals, no “can everyone hear me?” — just one link from quiet to loud.</p>
+          <a class="lp-text-link" href="#start">
+            Make yours now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </a>
+          <div class="lp-how-quote">
+            <span class="lp-quote-mark">“</span>
+            <p>It's like passing one pair of headphones around the world.</p>
+            <span class="lp-quote-credit">— the MusicRoom idea</span>
+          </div>
+        </div>
+
+        <div class="lp-steps">
+          <article class="lp-step">
+            <div class="lp-step-marker">
+              <span>01</span>
+              <div class="lp-step-line"></div>
+            </div>
+            <div class="lp-step-content">
+              <div class="lp-step-title-row">
+                <h3>Name it.</h3>
+                <span>30 seconds</span>
+              </div>
+              <p>Pick a nickname and a room name. We spin up a six-character code and a fresh room, instantly.</p>
+              <div class="lp-step-visual lp-step-visual-create" aria-hidden="true">
+                <div class="lp-mini-form">
+                  <div class="lp-mini-form-row"><span>Room</span><b>Saturday rotation</b><i></i></div>
+                  <div class="lp-mini-form-row"><span>Host</span><b>Maya</b><i></i></div>
+                  <div class="lp-mini-code">X7K2<span>P9</span><em>ready</em></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="lp-step">
+            <div class="lp-step-marker">
+              <span>02</span>
+              <div class="lp-step-line"></div>
+            </div>
+            <div class="lp-step-content">
+              <div class="lp-step-title-row">
+                <h3>Send the code.</h3>
+                <span>One link</span>
+              </div>
+              <p>Drop the invite link in the group chat, or send the code straight to WhatsApp or Telegram. No app install needed.</p>
+              <div class="lp-step-visual lp-step-visual-share" aria-hidden="true">
+                <div class="lp-ticket">
+                  <div class="lp-ticket-side"><span>ROOM</span><b>ADMIT<br />ONE+</b></div>
+                  <div class="lp-ticket-main">
+                    <span class="lp-ticket-kicker">You're invited · after hours</span>
+                    <strong>X7K2P9</strong>
+                    <span class="lp-ticket-link">musicroom.app/join/x7k2p9</span>
+                  </div>
+                </div>
+                <span class="lp-ticket-clip">↗</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="lp-step">
+            <div class="lp-step-marker">
+              <span>03</span>
+              <div class="lp-step-line"></div>
+            </div>
+            <div class="lp-step-content">
+              <div class="lp-step-title-row">
+                <h3>Press play.</h3>
+                <span>Perfectly synced</span>
+              </div>
+              <p>Search YouTube, add a song, and hit play. Everyone lands on the same beat — no matter where they are.</p>
+              <div class="lp-step-visual lp-step-visual-play" aria-hidden="true">
+                <div class="lp-play-ring"><span><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></div>
+                <div class="lp-play-info">
+                  <div class="lp-play-row"><span>Midnight City</span><b>4:03</b></div>
+                  <div class="lp-play-progress"><i></i></div>
+                  <div class="lp-play-meta"><span>5 listening</span><span class="lp-play-sync"><i></i> in sync</span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-moment">
+      <div class="lp-shell">
+        <div class="lp-moment-card">
+          <img src="https://images.pexels.com/photos/36729938/pexels-photo-36729938.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=800&w=1600" alt="Friends dancing together at a rooftop party as the sun sets" width="1600" height="800" loading="lazy" />
+          <div class="lp-moment-shade" aria-hidden="true"></div>
+          <div class="lp-moment-top">
+            <span class="lp-moment-label"><i></i> The whole point</span>
+            <span class="lp-moment-tag">Side B · The human side</span>
+          </div>
+          <div class="lp-moment-copy">
+            <h2>It hits different<br />when <span class="lp-serif">someone's there.</span></h2>
+            <p>Music is better as a shared experience. Even when the room is spread across three cities and four screens.</p>
+            <a class="lp-btn lp-btn-cream" href="#start">
+              Get everyone in
+              <span class="lp-btn-arrow" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+              </span>
+            </a>
+          </div>
+          <div class="lp-moment-sticker" aria-hidden="true">
+            <span>Good</span>
+            <b>company</b>
+            <span>required</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-faq" id="faq">
+      <div class="lp-shell lp-faq-grid">
+        <div class="lp-faq-intro">
+          <div class="lp-section-tag">
+            <span>04</span>
+            <span>Before you ask</span>
+            <i></i>
+          </div>
+          <h2>Small print.<br /><span class="lp-serif">Big clarity.</span></h2>
+          <p>No surprises hiding behind a settings menu. Here's everything you need to know.</p>
+          <div class="lp-faq-aside">
+            <span class="lp-faq-aside-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
+            </span>
+            <p>Still curious? The room demo is the fastest way to see it in action.</p>
+            <button class="lp-text-link lp-text-link-small" type="button" id="footerDemo">
+              Open the demo room
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="lp-faq-list">
+          <details class="lp-faq-item" open>
+            <summary>Do I need a Spotify or YouTube account?<span class="lp-faq-plus" aria-hidden="true"></span></summary>
+            <div class="lp-faq-answer"><p>No account, no login, no email. Pick a nickname and you're in. MusicRoom plays public YouTube videos through YouTube's official embedded player, so no account is needed on our side.</p></div>
+          </details>
+          <details class="lp-faq-item">
+            <summary>What if search says the quota is exhausted?<span class="lp-faq-plus" aria-hidden="true"></span></summary>
+            <div class="lp-faq-answer"><p>YouTube limits API searches each day. When that happens, MusicRoom keeps working: paste any YouTube link directly into the room and it joins the queue as usual. Shared playback, chat, and voting are unaffected.</p></div>
+          </details>
+          <details class="lp-faq-item">
+            <summary>Will we actually be in sync?<span class="lp-faq-plus" aria-hidden="true"></span></summary>
+            <div class="lp-faq-answer"><p>Yes. The host broadcasts the current playhead every three seconds. Each listener checks their local player once a second and quietly seeks back if they drift by more than three seconds. You won't need to coordinate countdowns.</p></div>
+          </details>
+          <details class="lp-faq-item">
+            <summary>Does it work on my phone?<span class="lp-faq-plus" aria-hidden="true"></span></summary>
+            <div class="lp-faq-answer"><p>MusicRoom is a responsive web app, so it works in any modern mobile browser. Phones sometimes block unmuted autoplay; if that happens, a single “tap to join the audio” button puts you in at the exact room position.</p></div>
+          </details>
+          <details class="lp-faq-item">
+            <summary>Is it really free?<span class="lp-faq-plus" aria-hidden="true"></span></summary>
+            <div class="lp-faq-answer"><p>Yes. It's built as a lightweight static app, so it can run on free Firebase, YouTube API, GitHub, and Vercel tiers. There are no ads, no subscriptions, and no paid rooms. Ever.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-final">
+      <div class="lp-shell">
+        <div class="lp-final-card">
+          <div class="lp-final-vinyl" aria-hidden="true">
+            <span class="lp-final-vinyl-label">PRESS<br />PLAY</span>
+          </div>
+          <div class="lp-final-copy">
+            <span class="lp-final-eyebrow"><i></i> The room is ready when you are</span>
+            <h2>Your people<br />are <span class="lp-serif">waiting.</span></h2>
+            <p>Make a room. Send one code. Turn a scattered group chat into a shared soundtrack.</p>
+            <div class="lp-final-actions">
+              <a class="lp-btn lp-btn-ink lp-btn-lg" href="#start">
+                Create your room
+                <span class="lp-btn-arrow" aria-hidden="true">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+                </span>
+              </a>
+              <a class="lp-btn lp-btn-transparent lp-btn-lg" href="#start" data-focus-join>Join with a code</a>
+            </div>
+            <div class="lp-final-foot">
+              <span>Free forever</span><i></i><span>No ads</span><i></i><span>No sign-up</span>
+            </div>
+          </div>
+          <div class="lp-final-notes" aria-hidden="true">
+            <span class="lp-note lp-note-1">♫</span>
+            <span class="lp-note lp-note-2">♪</span>
+            <span class="lp-note lp-note-3">♬</span>
+            <span class="lp-final-line"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lp-footer">
+    <div class="lp-shell">
+      <div class="lp-footer-main">
+        <div class="lp-footer-brand">
+          <a class="lp-logo" href="index.html" aria-label="MusicRoom home">
+            <span class="lp-logo-mark" aria-hidden="true"><span class="lp-logo-ring"></span><span class="lp-logo-hole"></span></span>
+            <span class="lp-logo-word">MusicRoom<span class="lp-logo-dot">.</span></span>
+          </a>
+          <p>One link between the people you like and the music you love. Built for the group chat, not the algorithm.</p>
+          <span class="lp-footer-status"><i></i> All systems ready to play</span>
+        </div>
+        <div class="lp-footer-col">
+          <h3>The app</h3>
+          <a href="#start">Create a room</a>
+          <a href="#start" data-focus-join>Join a room</a>
+          <a href="room.html">Open a session</a>
+          <button type="button" id="footerDemoTwo">Demo room</button>
+        </div>
+        <div class="lp-footer-col">
+          <h3>Discover</h3>
+          <a href="#features">Why MusicRoom</a>
+          <a href="#how">How sync works</a>
+          <a href="#faq">Questions</a>
+          <a href="README.md">Setup guide</a>
+        </div>
+        <div class="lp-footer-col lp-footer-col-note">
+          <span class="lp-footer-note-tag">A small note</span>
+          <p>No ads, no tracking pixels, no dark patterns. Just a room, a queue, and the people you came with.</p>
+          <span class="lp-footer-heart">Made for the aux cord generation <b>♥</b></span>
+        </div>
+      </div>
+
+      <div class="lp-footer-bottom">
+        <span>&copy; <span id="year">2026</span> MusicRoom. All the good parts.</span>
+        <div class="lp-footer-legal">
+          <a href="README.md">Docs</a>
+          <a href="#faq">Privacy, plainly</a>
+          <a href="#start">Back to the top</a>
+        </div>
+        <div class="lp-footer-socials" aria-label="Share MusicRoom">
+          <a href="#start" aria-label="Share on WhatsApp" data-share-network="whatsapp">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.2-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.5-.3zM12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2z"/></svg>
+          </a>
+          <a href="#start" aria-label="Share on Telegram" data-share-network="telegram">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m21.7 3.4-3.2 15.1c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.3-.1-.5-.6-.2L6.3 12.4l-4.8-1.5c-1-.3-1-1 .2-1.5L20.4 2c.9-.3 1.6.2 1.3 1.4z"/></svg>
+          </a>
+          <a href="README.md" aria-label="Read the documentation">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="lp-footer-wordmark" aria-hidden="true">MusicRoom<span>.</span></div>
+    </div>
+  </footer>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

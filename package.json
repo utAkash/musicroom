@@ -1,0 +1,24 @@
+{
+  "name": "musicroom",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A zero-build, real-time collaborative YouTube listening room with a democratic queue, live chat, and drift-corrected playback.",
+  "keywords": [
+    "music",
+    "youtube",
+    "listen-together",
+    "firebase",
+    "realtime",
+    "vanilla-javascript",
+    "vercel"
+  ],
+  "author": "MusicRoom",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npx --yes serve . -l 3000",
+    "start": "npx --yes serve . -l 3000"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
