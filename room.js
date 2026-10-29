@@ -6,7 +6,7 @@
    catalog and direct YouTube links continue to work.
    ============================================================ */
 
-const YOUTUBE_API_KEY = "YOUR_YOUTUBE_API_KEY_HERE";
+const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
 
 (function () {
   "use strict";
