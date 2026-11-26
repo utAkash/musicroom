@@ -2181,11 +2181,18 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
      Boot
      ------------------------------------------------------------ */
 
-  function resolveIdentity() {
+  async function resolveIdentity() {
     if (window.MusicRoomFirebase && window.MusicRoomFirebase.isConfigured()) {
       database = window.MusicRoomFirebase.init();
       cloudEnabled = Boolean(database);
       if (database) {
+        try {
+          const firebaseUser = await window.MusicRoomFirebase.signInAnonymously();
+          if (firebaseUser) session = { ...(session || {}), userId: firebaseUser.uid };
+        } catch (error) {
+          console.error("[MusicRoom] Anonymous authentication failed:", error);
+          cloudEnabled = false;
+        }
         database.ref(".info/serverTimeOffset").on("value", (snapshot) => {
           serverTimeOffset = toNumber(snapshot.val());
         });
@@ -2201,7 +2208,7 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
     if (!session || !session.userId || session.roomCode !== code) {
       const name = cleanName(params.get("name")) || "Guest";
       session = {
-        userId: createId("guest"),
+        userId: (window.MusicRoomFirebase && window.MusicRoomFirebase.getCurrentUser() && window.MusicRoomFirebase.getCurrentUser().uid) || createId("guest"),
         userName: name,
         userInitials: initialsFor(name),
         userColor: colorForId(createId("color")),
@@ -2221,8 +2228,8 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
     return true;
   }
 
-  function init() {
-    if (!resolveIdentity()) return;
+  async function init() {
+    if (!(await resolveIdentity())) return;
     bindEvents();
     setSearchModeLabel("Local catalog");
     youtubeKeyConfigured = /^AIza[0-9A-Za-z_-]{20,}$/.test(YOUTUBE_API_KEY) && !YOUTUBE_API_KEY.includes("YOUR_");
@@ -2235,7 +2242,7 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+    document.addEventListener("DOMContentLoaded", () => { init(); });
   } else {
     init();
   }
