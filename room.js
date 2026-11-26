@@ -633,11 +633,8 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
   }
 
   function currentBroadcasterId() {
-    if (!room) return "";
-    const host = room.users && room.users[room.hostId];
-    if (host && host.online !== false) return room.hostId;
-    const online = onlineUsers().sort((a, b) => toNumber(a.joinedAt) - toNumber(b.joinedAt));
-    return online.length ? online[0].id : room.hostId;
+    // Playback authority stays with the room creator, matching Firebase rules.
+    return room ? room.hostId : "";
   }
 
   function isBroadcaster() {
