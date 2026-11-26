@@ -942,6 +942,10 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
 
   function playRelative(direction, fromEnded = false) {
     if (!room) return;
+    if (!isBroadcaster()) {
+      if (!fromEnded) toast("Only the room host can control playback.", "default", "Host controls playback");
+      return;
+    }
     const queue = sortedQueue();
 
     if (!room.currentSong) {
@@ -983,6 +987,10 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
 
   function togglePlayback() {
     if (!room) return;
+    if (!isBroadcaster()) {
+      toast("Only the room host can control playback.", "default", "Host controls playback");
+      return;
+    }
     if (!room.currentSong) {
       const queue = sortedQueue();
       if (queue.length) {
@@ -1017,6 +1025,10 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
 
   function seekTo(seconds) {
     if (!room || !room.currentSong) return;
+    if (!isBroadcaster()) {
+      toast("Only the room host can seek the shared player.", "default", "Host controls playback");
+      return;
+    }
     const duration = room.currentSong.durationSeconds || (playerReady && player ? player.getDuration() : 0);
     const target = clamp(toNumber(seconds), 0, Math.max(0, toNumber(duration)));
     updateRoot({ currentTime: target, currentTimeAt: Date.now() });
@@ -1472,11 +1484,13 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
     };
 
     setPath(`queue/${song.id}`, song);
-    if (playNow || !room.currentSong) {
+    if (isBroadcaster() && (playNow || !room.currentSong)) {
       startSong(song);
       toast(`${song.title.length > 46 ? `${song.title.slice(0, 46)}…` : song.title} is up now.`, "success", playNow ? "Playing your pick" : "First song is on");
     } else {
-      toast(`Added to the queue for ${session.userName}'s crew.`, "success", "Track added");
+      toast(isBroadcaster()
+        ? `Added to the queue for ${session.userName}'s crew.`
+        : "Added to the queue. The host can start it when ready.", "success", "Track added");
     }
   }
 
@@ -1985,6 +1999,10 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
     });
 
     $("#repeatBtn")?.addEventListener("click", () => {
+      if (!isBroadcaster()) {
+        toast("Only the room host can change repeat mode.", "default", "Host controls playback");
+        return;
+      }
       repeatEnabled = !Boolean(room && room.repeat);
       updateRoot({ repeat: repeatEnabled });
       syncControls();
