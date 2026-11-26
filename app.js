@@ -428,7 +428,6 @@
         toast(`Welcome to ${existing.name || "the room"}, ${user.name}.`, "success", "You're in");
       }
 
-      toast(`Welcome to ${existing.name || "the room"}, ${user.name}.`, "success", "You're in");
       await goToRoom(code, createSession(user, code));
     } catch (error) {
       console.error("[MusicRoom] Join failed:", error);
