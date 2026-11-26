@@ -404,7 +404,7 @@
       if (cloudEnabled && database) {
         await database.ref(`rooms/${code}/users/${userId}`).set(user);
         await database.ref(`rooms/${code}/messages/${joinKey}`).set(existing.messages[joinKey]);
-        await database.ref(`rooms/${code}`).update({ updatedAt: Date.now() });
+        await database.ref(`rooms/${code}/updatedAt`).set(Date.now());
       } else {
         saveLocalRoom(existing);
       }
