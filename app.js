@@ -384,7 +384,7 @@
       const priorSession = readSession();
       const returningUserId = firebaseUser ? firebaseUser.uid : (priorSession && priorSession.roomCode === code ? priorSession.userId : "");
       const knownUser = returningUserId && existing.users ? existing.users[returningUserId] : null;
-      const userId = knownUser ? returningUserId : createUserId();
+      const userId = firebaseUser ? firebaseUser.uid : (knownUser ? returningUserId : createUserId());
       const existingHostId = existing.hostId || "";
       const isHost = existingHostId === userId;
       const user = buildUser(name, userId, isHost);
