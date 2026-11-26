@@ -1899,7 +1899,9 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
       currentTimeAt: serverNow()
     };
     if (cloudEnabled && database) {
-      database.ref(`rooms/${code}`).update(patch).catch(() => {}).finally(() => {
+      Promise.all(Object.entries(patch).map(([key, value]) =>
+        database.ref(`rooms/${code}/${key}`).set(value)
+      )).catch(() => {}).finally(() => {
         hostBroadcastInFlight = false;
       });
     } else {
