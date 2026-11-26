@@ -9,13 +9,13 @@
    ============================================================ */
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyApCqXNApX8AN_L5Swm9IxEDhK39EkT4F0",
+  authDomain: "musicroom-929bc.firebaseapp.com",
+  databaseURL: "https://musicroom-929bc-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "musicroom-929bc",
+  storageBucket: "musicroom-929bc.firebasestorage.app",
+  messagingSenderId: "270117794979",
+  appId: "1:270117794979:web:5b8e1b507baba575bbfb16"
 };
 
 /* ============================================================
