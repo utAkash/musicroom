@@ -38,6 +38,11 @@
     }
   }
 
+  async function ensureFirebaseUser() {
+    if (!cloudEnabled || !window.MusicRoomFirebase) return null;
+    return window.MusicRoomFirebase.signInAnonymously();
+  }
+
   function createUserId() {
     if (window.crypto && typeof window.crypto.randomUUID === "function") {
       return window.crypto.randomUUID().replace(/-/g, "").slice(0, 14);
@@ -295,11 +300,17 @@
     setFieldError(roomNameInput, roomNameError, "");
 
     const roomName = rawRoomName || `${name.split(" ")[0]}'s room`;
-    const userId = createUserId();
+    let userId = createUserId();
     const user = buildUser(name, userId, true);
 
     setLoading(button, true, "Setting the stage…");
     try {
+      const firebaseUser = await ensureFirebaseUser();
+      if (firebaseUser) {
+        userId = firebaseUser.uid;
+        user.id = userId;
+        user.color = colorForId(userId);
+      }
       let code = randomRoomCode();
       let attempts = 0;
       while (await roomExists(code)) {
@@ -360,6 +371,7 @@
 
     setLoading(button, true, "Finding the room…");
     try {
+      const firebaseUser = await ensureFirebaseUser();
       const existing = await getRoom(code);
       if (!existing) {
         setFieldError(codeInput, codeError, "We couldn't find that room. Double-check the code?");
@@ -370,7 +382,7 @@
       }
 
       const priorSession = readSession();
-      const returningUserId = priorSession && priorSession.roomCode === code ? priorSession.userId : "";
+      const returningUserId = firebaseUser ? firebaseUser.uid : (priorSession && priorSession.roomCode === code ? priorSession.userId : "");
       const knownUser = returningUserId && existing.users ? existing.users[returningUserId] : null;
       const userId = knownUser ? returningUserId : createUserId();
       const existingHostId = existing.hostId || "";
