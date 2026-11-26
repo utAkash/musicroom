@@ -50,7 +50,13 @@
         "queue": {
           "$songId": {
             ".write": "auth != null && root.child('rooms').child($code).child('users').child(auth.uid).exists() && ((!data.exists() && newData.child('addedBy').val() === auth.uid) || (!newData.exists() && (data.child('addedBy').val() === auth.uid || root.child('rooms').child($code).child('hostId').val() === auth.uid)))",
-            ".validate": "newData.hasChildren(['id', 'videoId', 'title', 'addedBy', 'votes']) && newData.child('id').val() === $songId && newData.child('videoId').isString() && newData.child('videoId').val().matches(/^[A-Za-z0-9_-]{11}$/) && newData.child('title').isString() && newData.child('title').val().length <= 200 && newData.child('addedBy').val() === auth.uid"
+            ".validate": "newData.hasChildren(['id', 'videoId', 'title', 'addedBy', 'votes']) && newData.child('id').val() === $songId && newData.child('videoId').isString() && newData.child('videoId').val().matches(/^[A-Za-z0-9_-]{11}$/) && newData.child('title').isString() && newData.child('title').val().length <= 200 && newData.child('addedBy').isString()",
+            "votes": {
+              "$uid": {
+                ".write": "auth != null && auth.uid === $uid && root.child('rooms').child($code).child('users').child(auth.uid).exists() && (!newData.exists() || newData.val() === true)",
+                ".validate": "newData.val() === true"
+              }
+            }
           }
         }
       }
