@@ -193,7 +193,8 @@
 
   async function roomExists(code) {
     if (cloudEnabled && database) {
-      const snapshot = await database.ref(`rooms/${code}`).once("value");
+      // Check the public directory, not the member-only room record.
+      const snapshot = await database.ref(`roomIndex/${code}`).once("value");
       return snapshot.exists();
     }
     return Boolean(getLocalRoom(code));
