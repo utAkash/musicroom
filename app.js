@@ -199,6 +199,15 @@
     return Boolean(getLocalRoom(code));
   }
 
+  async function getRoomIndex(code) {
+    if (cloudEnabled && database) {
+      const snapshot = await database.ref(`roomIndex/${code}`).once("value");
+      return snapshot.exists() ? snapshot.val() : null;
+    }
+    const local = getLocalRoom(code);
+    return local ? { code: local.code, name: local.name, hostId: local.hostId, createdAt: local.createdAt } : null;
+  }
+
   async function getRoom(code) {
     if (cloudEnabled && database) {
       const snapshot = await database.ref(`rooms/${code}`).once("value");
@@ -249,7 +258,14 @@
 
   async function persistRoom(room) {
     if (cloudEnabled && database) {
+      // Create the private room first, then publish only minimal join metadata.
       await database.ref(`rooms/${room.code}`).set(room);
+      await database.ref(`roomIndex/${room.code}`).set({
+        code: room.code,
+        name: room.name,
+        hostId: room.hostId,
+        createdAt: room.createdAt
+      });
     } else {
       saveLocalRoom(room);
     }
@@ -372,8 +388,8 @@
     setLoading(button, true, "Finding the room…");
     try {
       const firebaseUser = await ensureFirebaseUser();
-      const existing = await getRoom(code);
-      if (!existing) {
+      const roomInfo = await getRoomIndex(code);
+      if (!roomInfo) {
         setFieldError(codeInput, codeError, "We couldn't find that room. Double-check the code?");
         toast("That room doesn't exist yet. Check the code or create a new one.", "error", "Room not found");
         codeInput?.focus();
@@ -381,20 +397,11 @@
         return;
       }
 
-      const priorSession = readSession();
-      const returningUserId = firebaseUser ? firebaseUser.uid : (priorSession && priorSession.roomCode === code ? priorSession.userId : "");
-      const knownUser = returningUserId && existing.users ? existing.users[returningUserId] : null;
-      const userId = firebaseUser ? firebaseUser.uid : (knownUser ? returningUserId : createUserId());
-      const existingHostId = existing.hostId || "";
-      const isHost = existingHostId === userId;
+      const userId = firebaseUser ? firebaseUser.uid : createUserId();
+      const isHost = roomInfo.hostId === userId;
       const user = buildUser(name, userId, isHost);
-
-      existing.users = existing.users && typeof existing.users === "object" ? existing.users : {};
-      existing.users[userId] = user;
-      existing.updatedAt = Date.now();
-      existing.messages = existing.messages && typeof existing.messages === "object" ? existing.messages : {};
       const joinKey = `joined_${userId}`;
-      existing.messages[joinKey] = {
+      const joinMessage = {
         id: joinKey,
         type: "system",
         text: `${user.name} joined the room.`,
@@ -402,11 +409,23 @@
       };
 
       if (cloudEnabled && database) {
+        // Bootstrap only this user's membership before reading private room data.
         await database.ref(`rooms/${code}/users/${userId}`).set(user);
-        await database.ref(`rooms/${code}/messages/${joinKey}`).set(existing.messages[joinKey]);
+        await database.ref(`rooms/${code}/messages/${joinKey}`).set(joinMessage);
         await database.ref(`rooms/${code}/updatedAt`).set(Date.now());
+        const existing = await getRoom(code);
+        if (!existing) throw new Error("The room could not be loaded after joining.");
+        toast(`Welcome to ${existing.name || roomInfo.name || "the room"}, ${user.name}.`, "success", "You're in");
       } else {
+        const existing = getLocalRoom(code);
+        if (!existing) throw new Error("That room no longer exists.");
+        existing.users = existing.users && typeof existing.users === "object" ? existing.users : {};
+        existing.users[userId] = user;
+        existing.updatedAt = Date.now();
+        existing.messages = existing.messages && typeof existing.messages === "object" ? existing.messages : {};
+        existing.messages[joinKey] = joinMessage;
         saveLocalRoom(existing);
+        toast(`Welcome to ${existing.name || "the room"}, ${user.name}.`, "success", "You're in");
       }
 
       toast(`Welcome to ${existing.name || "the room"}, ${user.name}.`, "success", "You're in");
