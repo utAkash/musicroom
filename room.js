@@ -497,7 +497,11 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
     }
     if (cloudEnabled && database) {
       try {
-        await database.ref(`rooms/${code}`).update(safePatch);
+        // Write only the requested room fields. This lets Firebase rules
+        // authorize playback fields without granting broad room-root writes.
+        await Promise.all(Object.entries(safePatch).map(([key, value]) =>
+          database.ref(`rooms/${code}/${key}`).set(value)
+        ));
       } catch (error) {
         console.error("[MusicRoom] Update failed:", error);
         toast("The room couldn't be updated. Check your connection.", "error", "Sync interrupted");
