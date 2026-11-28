@@ -1,0 +1,65 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "roomIndex": {
+      "$code": {
+        ".read": "auth != null",
+        ".write": "auth != null && !data.exists() && newData.child('code').val() === $code && newData.child('hostId').val() === auth.uid && root.child('rooms').child($code).child('hostId').val() === auth.uid"
+      }
+    },
+    "rooms": {
+      "$code": {
+        ".read": "auth != null && data.child('users').child(auth.uid).exists()",
+        ".write": "auth != null && !data.exists() && newData.child('code').val() === $code && newData.child('hostId').val() === auth.uid && newData.child('users').child(auth.uid).exists()",
+        "updatedAt": {
+          ".write": "auth != null && root.child('rooms').child($code).child('users').child(auth.uid).exists()",
+          ".validate": "newData.isNumber()"
+        },
+        "currentSong": {
+          ".write": "auth != null && root.child('rooms').child($code).child('hostId').val() === auth.uid"
+        },
+        "isPlaying": {
+          ".write": "auth != null && root.child('rooms').child($code).child('hostId').val() === auth.uid",
+          ".validate": "newData.isBoolean()"
+        },
+        "currentTime": {
+          ".write": "auth != null && root.child('rooms').child($code).child('hostId').val() === auth.uid",
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "currentTimeAt": {
+          ".write": "auth != null && root.child('rooms').child($code).child('hostId').val() === auth.uid",
+          ".validate": "newData.isNumber()"
+        },
+        "repeat": {
+          ".write": "auth != null && root.child('rooms').child($code).child('hostId').val() === auth.uid",
+          ".validate": "newData.isBoolean()"
+        },
+        "users": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid && root.child('rooms').child($code).exists() && root.child('roomIndex').child($code).exists() && newData.child('id').val() === auth.uid && newData.child('host').val() === (root.child('rooms').child($code).child('hostId').val() === auth.uid)",
+            ".validate": "newData.hasChildren(['id', 'name', 'host', 'online']) && newData.child('name').isString() && newData.child('name').val().length > 0 && newData.child('name').val().length <= 32 && newData.child('host').isBoolean() && newData.child('online').isBoolean()"
+          }
+        },
+        "messages": {
+          "$messageId": {
+            ".write": "auth != null && root.child('rooms').child($code).child('users').child(auth.uid).exists() && ((newData.child('uid').val() === auth.uid) || (newData.child('type').val() === 'system' && $messageId === 'joined_' + auth.uid))",
+            ".validate": "newData.hasChildren(['id', 'text', 'at']) && newData.child('id').val() === $messageId && newData.child('text').isString() && newData.child('text').val().length <= 400 && newData.child('at').isNumber()"
+          }
+        },
+        "queue": {
+          "$songId": {
+            ".write": "auth != null && root.child('rooms').child($code).child('users').child(auth.uid).exists() && ((!data.exists() && newData.child('addedBy').val() === auth.uid) || (!newData.exists() && (data.child('addedBy').val() === auth.uid || root.child('rooms').child($code).child('hostId').val() === auth.uid)))",
+            ".validate": "newData.hasChildren(['id', 'videoId', 'title', 'addedBy', 'votes']) && newData.child('id').val() === $songId && newData.child('videoId').isString() && newData.child('videoId').val().matches(/^[A-Za-z0-9_-]{11}$/) && newData.child('title').isString() && newData.child('title').val().length <= 200 && newData.child('addedBy').isString()",
+            "votes": {
+              "$uid": {
+                ".write": "auth != null && auth.uid === $uid && root.child('rooms').child($code).child('users').child(auth.uid).exists() && (!newData.exists() || newData.val() === true)",
+                ".validate": "newData.val() === true"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -134,61 +134,16 @@ Use your exact values. `databaseURL` is required for Realtime Database.
 
 ### 1.5 Security rules
 
-For development with trusted friends, this is enough:
+MusicRoom uses Firebase Anonymous Authentication. The app's member-scoped rules are maintained in [database.rules.json](./database.rules.json).
 
-```json
-{
-  "rules": {
-    "rooms": {
-      "$roomCode": {
-        ".read": true,
-        ".write": true
-      }
-    }
-  }
-}
-```
+1. Open **Firebase Console → Realtime Database → Rules**.
+2. Copy the complete contents of `database.rules.json` from this repository branch.
+3. Replace the rules editor contents and click **Publish** only after the matching app code has been deployed to a test preview.
+4. Keep the database locked until the app code and these rules are in sync.
 
-Paste it into **Realtime Database → Rules**, then click **Publish**.
+Do **not** use broad rules such as `.read: true` or `.write: true`. The room directory exposes only minimal join metadata; full room data is readable only after the authenticated user has registered as a room member. Playback fields are host-controlled, while members can manage their own profile, chat messages, queue additions, and votes.
 
-A more deliberate ruleset validates the room shape and blocks accidental malformed writes:
-
-```json
-{
-  "rules": {
-    "rooms": {
-      "$roomCode": {
-        ".read": true,
-        ".write": true,
-        ".validate": "newData.hasChildren(['code', 'name', 'hostId', 'users'])",
-        "code": {
-          ".validate": "newData.isString() && newData.val().matches(/^[A-Z0-9]{6}$/)"
-        },
-        "name": {
-          ".validate": "newData.isString() && newData.val().length <= 40"
-        },
-        "currentSong": {
-          ".validate": "!newData.exists() || newData.hasChildren(['videoId', 'title'])"
-        },
-        "isPlaying": { ".validate": "newData.isBoolean()" },
-        "currentTime": { ".validate": "newData.isNumber() && newData.val() >= 0" },
-        "queue": {
-          "$songId": {
-            ".validate": "!newData.exists() || newData.hasChildren(['videoId', 'title'])"
-          }
-        },
-        "messages": {
-          "$messageId": {
-            ".validate": "!newData.exists() || (newData.hasChildren(['at']) && newData.child('at').isNumber())"
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-**Important:** MusicRoom intentionally has no sign-in, so rules cannot identify individual users. For a public deployment, add Firebase App Check (reCAPTCHA v3), a scheduled database cleanup function, and stricter rate limits. Never use rules that grant write access to your entire Firebase project.
+The rules are a starting security boundary for this client-side app, not a substitute for server-side abuse protection. Anonymous accounts and six-character room codes can still be abused; consider Firebase App Check and server-side rate limiting before a wider public launch.
 
 ### 1.6 Authorized domains
 

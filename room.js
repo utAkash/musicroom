@@ -497,7 +497,11 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
     }
     if (cloudEnabled && database) {
       try {
-        await database.ref(`rooms/${code}`).update(safePatch);
+        // Write only the requested room fields. This lets Firebase rules
+        // authorize playback fields without granting broad room-root writes.
+        await Promise.all(Object.entries(safePatch).map(([key, value]) =>
+          database.ref(`rooms/${code}/${key}`).set(value)
+        ));
       } catch (error) {
         console.error("[MusicRoom] Update failed:", error);
         toast("The room couldn't be updated. Check your connection.", "error", "Sync interrupted");
@@ -629,11 +633,8 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
   }
 
   function currentBroadcasterId() {
-    if (!room) return "";
-    const host = room.users && room.users[room.hostId];
-    if (host && host.online !== false) return room.hostId;
-    const online = onlineUsers().sort((a, b) => toNumber(a.joinedAt) - toNumber(b.joinedAt));
-    return online.length ? online[0].id : room.hostId;
+    // Playback authority stays with the room creator, matching Firebase rules.
+    return room ? room.hostId : "";
   }
 
   function isBroadcaster() {
@@ -941,6 +942,10 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
 
   function playRelative(direction, fromEnded = false) {
     if (!room) return;
+    if (!isBroadcaster()) {
+      if (!fromEnded) toast("Only the room host can control playback.", "default", "Host controls playback");
+      return;
+    }
     const queue = sortedQueue();
 
     if (!room.currentSong) {
@@ -982,6 +987,10 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
 
   function togglePlayback() {
     if (!room) return;
+    if (!isBroadcaster()) {
+      toast("Only the room host can control playback.", "default", "Host controls playback");
+      return;
+    }
     if (!room.currentSong) {
       const queue = sortedQueue();
       if (queue.length) {
@@ -1016,6 +1025,10 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
 
   function seekTo(seconds) {
     if (!room || !room.currentSong) return;
+    if (!isBroadcaster()) {
+      toast("Only the room host can seek the shared player.", "default", "Host controls playback");
+      return;
+    }
     const duration = room.currentSong.durationSeconds || (playerReady && player ? player.getDuration() : 0);
     const target = clamp(toNumber(seconds), 0, Math.max(0, toNumber(duration)));
     updateRoot({ currentTime: target, currentTimeAt: Date.now() });
@@ -1471,11 +1484,13 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
     };
 
     setPath(`queue/${song.id}`, song);
-    if (playNow || !room.currentSong) {
+    if (isBroadcaster() && (playNow || !room.currentSong)) {
       startSong(song);
       toast(`${song.title.length > 46 ? `${song.title.slice(0, 46)}…` : song.title} is up now.`, "success", playNow ? "Playing your pick" : "First song is on");
     } else {
-      toast(`Added to the queue for ${session.userName}'s crew.`, "success", "Track added");
+      toast(isBroadcaster()
+        ? `Added to the queue for ${session.userName}'s crew.`
+        : "Added to the queue. The host can start it when ready.", "success", "Track added");
     }
   }
 
@@ -1895,7 +1910,9 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
       currentTimeAt: serverNow()
     };
     if (cloudEnabled && database) {
-      database.ref(`rooms/${code}`).update(patch).catch(() => {}).finally(() => {
+      Promise.all(Object.entries(patch).map(([key, value]) =>
+        database.ref(`rooms/${code}/${key}`).set(value)
+      )).catch(() => {}).finally(() => {
         hostBroadcastInFlight = false;
       });
     } else {
@@ -1982,6 +1999,10 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
     });
 
     $("#repeatBtn")?.addEventListener("click", () => {
+      if (!isBroadcaster()) {
+        toast("Only the room host can change repeat mode.", "default", "Host controls playback");
+        return;
+      }
       repeatEnabled = !Boolean(room && room.repeat);
       updateRoot({ repeat: repeatEnabled });
       syncControls();
@@ -2181,11 +2202,18 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
      Boot
      ------------------------------------------------------------ */
 
-  function resolveIdentity() {
+  async function resolveIdentity() {
     if (window.MusicRoomFirebase && window.MusicRoomFirebase.isConfigured()) {
       database = window.MusicRoomFirebase.init();
       cloudEnabled = Boolean(database);
       if (database) {
+        try {
+          const firebaseUser = await window.MusicRoomFirebase.signInAnonymously();
+          if (firebaseUser) session = { ...(session || {}), userId: firebaseUser.uid };
+        } catch (error) {
+          console.error("[MusicRoom] Anonymous authentication failed:", error);
+          cloudEnabled = false;
+        }
         database.ref(".info/serverTimeOffset").on("value", (snapshot) => {
           serverTimeOffset = toNumber(snapshot.val());
         });
@@ -2201,7 +2229,7 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
     if (!session || !session.userId || session.roomCode !== code) {
       const name = cleanName(params.get("name")) || "Guest";
       session = {
-        userId: createId("guest"),
+        userId: (window.MusicRoomFirebase && window.MusicRoomFirebase.getCurrentUser() && window.MusicRoomFirebase.getCurrentUser().uid) || createId("guest"),
         userName: name,
         userInitials: initialsFor(name),
         userColor: colorForId(createId("color")),
@@ -2221,8 +2249,8 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
     return true;
   }
 
-  function init() {
-    if (!resolveIdentity()) return;
+  async function init() {
+    if (!(await resolveIdentity())) return;
     bindEvents();
     setSearchModeLabel("Local catalog");
     youtubeKeyConfigured = /^AIza[0-9A-Za-z_-]{20,}$/.test(YOUTUBE_API_KEY) && !YOUTUBE_API_KEY.includes("YOUR_");
@@ -2235,7 +2263,7 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+    document.addEventListener("DOMContentLoaded", () => { init(); });
   } else {
     init();
   }

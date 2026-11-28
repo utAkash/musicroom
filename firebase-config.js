@@ -36,6 +36,8 @@ const firebaseConfig = {
 
   let app = null;
   let database = null;
+  let auth = null;
+  let authPromise = null;
   let lastError = null;
 
   /**
@@ -60,6 +62,7 @@ const firebaseConfig = {
 
     try {
       app = firebase.apps && firebase.apps.length ? firebase.app() : firebase.initializeApp(firebaseConfig);
+      auth = firebase.auth();
       database = firebase.database();
       console.info("[MusicRoom] Firebase Realtime Database connected.");
       return database;
@@ -70,6 +73,26 @@ const firebaseConfig = {
     }
   }
 
+  function signInAnonymously() {
+    if (!isFirebaseConfigured()) return Promise.resolve(null);
+    if (!initFirebase() || !auth) return Promise.reject(lastError || new Error("Firebase is unavailable."));
+    if (auth.currentUser) return Promise.resolve(auth.currentUser);
+    if (!authPromise) {
+      authPromise = auth.signInAnonymously()
+        .then((credential) => credential.user)
+        .catch((error) => {
+          authPromise = null;
+          lastError = error;
+          throw error;
+        });
+    }
+    return authPromise;
+  }
+
+  function getCurrentUser() {
+    return auth && auth.currentUser ? auth.currentUser : null;
+  }
+
   function getFirebaseError() {
     return lastError;
   }
@@ -78,6 +101,8 @@ const firebaseConfig = {
     config: firebaseConfig,
     isConfigured: isFirebaseConfigured,
     init: initFirebase,
+    signInAnonymously: signInAnonymously,
+    getCurrentUser: getCurrentUser,
     getError: getFirebaseError
   };
 })();
