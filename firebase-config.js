@@ -9,7 +9,7 @@
    ============================================================ */
 
 const firebaseConfig = {
-  apiKey: "AIzaSyApCqXNAXpX8AN_L5Swm9IxEDhK39EkT4F0",
+  apiKey: "AIzaSyApCqXNApX8AN_L5Swm9IxEDhK39EkT4F0",
   authDomain: "musicroom-929bc.firebaseapp.com",
   databaseURL: "https://musicroom-929bc-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "musicroom-929bc",
