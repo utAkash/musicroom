@@ -91,6 +91,11 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
   let forceChatScroll = false;
   let hostBroadcastInFlight = false;
   let serverTimeOffset = 0;
+  let lastBufferingAt = 0;
+  let lastDriftCorrectionAt = 0;
+
+  const BUFFER_RECOVERY_GRACE_MS = 6000;
+  const DRIFT_CORRECTION_COOLDOWN_MS = 8000;
 
   function serverNow() {
     return Date.now() + serverTimeOffset;
@@ -738,6 +743,9 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
 
   function onPlayerStateChange(event) {
     if (!window.YT) return;
+    if (event.data === window.YT.PlayerState.BUFFERING) {
+      lastBufferingAt = Date.now();
+    }
     if (event.data === window.YT.PlayerState.PLAYING) {
       audioBlocked = false;
       const unlock = $("#audioUnlock");
@@ -825,6 +833,10 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
     } catch (error) {
       return;
     }
+
+    // Never interrupt YouTube's own buffering or its immediate recovery.
+    if (state === window.YT.PlayerState.BUFFERING) return;
+    if (Date.now() - lastBufferingAt < BUFFER_RECOVERY_GRACE_MS) return;
 
     if (room.isPlaying) {
       const local = toNumber(player.getCurrentTime());
@@ -1935,18 +1947,27 @@ const YOUTUBE_API_KEY = "AIzaSyB7yYyQRogZEJUmuV9RBJJbDuFDeufVIeQ";
     } catch (error) {
       return;
     }
+
+    // Let YouTube finish buffering and stabilize before issuing sync commands.
+    if (state === window.YT.PlayerState.BUFFERING) return;
+    if (Date.now() - lastBufferingAt < BUFFER_RECOVERY_GRACE_MS) return;
+
     const expected = expectedPlaybackTime();
-    if (state === window.YT.PlayerState.PLAYING && Math.abs(local - expected) > SYNC_THRESHOLD_SECONDS) {
+    const correctionReady = Date.now() - lastDriftCorrectionAt >= DRIFT_CORRECTION_COOLDOWN_MS;
+    if (state === window.YT.PlayerState.PLAYING &&
+        Math.abs(local - expected) > Math.max(SYNC_THRESHOLD_SECONDS, 5) &&
+        correctionReady) {
       try {
         player.seekTo(Math.max(0, expected), true);
+        lastDriftCorrectionAt = Date.now();
         const syncText = $("#syncPillText");
         if (syncText) syncText.textContent = "Re-synced";
         window.setTimeout(updateSyncBadge, 1600);
       } catch (error) {
         /* The player might be between states. */
       }
-    } else if (state !== window.YT.PlayerState.PLAYING && state !== window.YT.PlayerState.BUFFERING) {
-      try { player.playVideo(); } catch (error) { /* User may need to tap. */ }
+    } else if (state !== window.YT.PlayerState.PLAYING) {
+      try { player.playVideo(); } catch (error) { /* User may need a tap. */ }
       scheduleAudioCheck();
     }
     updateSyncBadge();
